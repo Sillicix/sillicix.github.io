@@ -17,18 +17,22 @@
 <body class="bg-gradient-to-b from-[#EEF2FF] to-[#FEFCE8]">
   <div class="container mx-auto">
 
-     <!-- Logo -->
-    <div class="text-5xl bg-clip-text text-transparent bg-gradient-to-r from-[#F472B6] to-[#FBBF24] font-bold text-center">
+    <!-- Logo -->
+    <div
+      class="text-5xl bg-clip-text text-transparent bg-gradient-to-r from-[#F472B6] to-[#FBBF24] font-bold text-center">
       Portfolios </div>
 
     <div class="flex flex-col md:flex-row p-2 pt-10">
       <div class="intro_left_title w-full md:w-1/2 text-center pt-10">
-        <p class="text-4xl font-bold text-gray-700">Portfolios keeps track your assets with <span class="intro-highlight-text">market value</span> </p>
-        <p class="intro_left_desc font-bold text-lg pt-5 text-gray-600">Portfolios enables your financial goals by managing your real estate, stock, crypto currency with market value.</p>
-        <form class="pt-10" action="/action_page.php">
-          <input class="email_form
-       text-center rounded-full" type="text" id="fname" placeholder="email">
-          <button class="email_form_button text-base text-white rounded-3xl bg-gradient-to-r from-green-300 to-blue-300 hover:from-pink-500 hover:to-yellow-500" type="submit" > try beta</button>
+        <p class="text-4xl font-bold text-gray-700">Portfolios keeps track your assets with <span
+            class="intro-highlight-text">market value</span> </p>
+        <p class="intro_left_desc font-bold text-lg pt-5 text-gray-600">Portfolios enables your financial goals by
+          managing your real estate, stock, crypto currency with market value.</p>
+        <form class="pt-10" method="get" action="https://hooks.zapier.com/hooks/catch/14936794/3266p88/">
+          <input class="email_form text-center rounded-full" type="text" name="email" id="email" placeholder="email">
+          <button
+            class="email_form_button text-base text-white rounded-3xl bg-gradient-to-r from-green-300 to-blue-300 hover:from-pink-500 hover:to-yellow-500"
+            type="submit"> try beta</button>
         </form>
       </div>
 
@@ -41,7 +45,7 @@
     <!-- start features -->
 
     <!-- stock  -->
-    
+
 
     <div class="flex p-2 pt-10 items-center">
       <div class="w-1/2 flex justify-center">
@@ -49,7 +53,8 @@
       </div>
       <div class="w-1/2 text-center">
         <p class="font-bold text-gray-700 text-3xl"> Stock </p>
-        <p class="pt-3 text-gray-700"> You can easily monitor your portfolio's performance and identify potential opportunities for growth. </p>
+        <p class="pt-3 text-gray-700"> You can easily monitor your portfolio's performance and identify potential
+          opportunities for growth. </p>
       </div>
     </div>
     <!-- end stock  -->
@@ -58,7 +63,7 @@
     <div class="flex p-2 pt-10 items-center">
       <div class="w-1/2 text-center">
         <p class="font-bold text-gray-700 text-3xl"> Crypto </p>
-        <p class="pt-3 text-gray-700">  Being updated with digital assets to diversify your investments. </p>
+        <p class="pt-3 text-gray-700"> Being updated with digital assets to diversify your investments. </p>
       </div>
       <div class="w-1/2 flex justify-center">
         <img class="w-[190px] h-[190px]" src="/images/bitcoin.png" alt="Italian Trulli">
@@ -87,12 +92,23 @@
     <!-- end footer -->
 
   </div>
+
+  <!-- Modal -->
+  <div id="emailSubmit" class="fixed z-10 inset-0 overflow-y-auto hidden">
+    <div class="flex items-center justify-center min-h-screen p-4">
+      <div class="bg-white rounded-lg shadow-xl p-4 max-w-sm w-full" role="dialog" aria-modal="true"
+        aria-labelledby="modal-title">
+        <h1 class="text-lg font-bold mb-4" id="modal-title">Register</h1>
+        <p class="mb-4">Thanks for submit. We will send you beta link shortly.</p>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>
 
 <style>
-
   .email_form {
     box-sizing: border-box;
     width: 165px;
@@ -112,8 +128,7 @@
   }
 
   .intro_left_title {
-    font-family: Source Sans Pro
-;
+    font-family: Source Sans Pro;
   }
 
   .intro_left_desc {
@@ -127,3 +142,25 @@
     background-clip: text;
   }
 </style>
+
+<!-- Modal JavaScript -->
+<script>
+
+  // Get the modal
+  var modal = document.getElementById("emailSubmit");
+
+  // Display the modal when the form is submitted
+  document.querySelector("form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    const email = document.getElementById("email")
+    // fetch("https://hooks.zapier.com/hooks/catch/14936794/3266p88?email="+email.value).then((response) => response.json()).then((json)=> console.log(json));
+    fetch("https://hooks.zapier.com/hooks/catch/14936794/3266p88?email="+email.value);
+    modal.style.display = "block";
+
+    // Hide the modal after 3 seconds
+    setTimeout(function () {
+      modal.style.display = "none";
+    }, 3000);
+  });
+
+</script>
