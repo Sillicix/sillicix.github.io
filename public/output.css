@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.3.1 | MIT License | https://tailwindcss.com
+! tailwindcss v3.2.7 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -31,7 +31,6 @@
 3. Use a more readable tab size.
 4. Use the user's configured `sans` font-family by default.
 5. Use the user's configured `sans` font-feature-settings by default.
-6. Use the user's configured `sans` font-variation-settings by default.
 */
 
 html {
@@ -48,8 +47,6 @@ html {
   /* 4 */
   font-feature-settings: normal;
   /* 5 */
-  font-variation-settings: normal;
-  /* 6 */
 }
 
 /*
@@ -537,7 +534,10 @@ video {
 }
 
 .inset-0 {
-  inset: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
 }
 
 .-inset-x-20 {
@@ -833,11 +833,6 @@ video {
   background-color: rgb(99 102 241 / var(--tw-bg-opacity));
 }
 
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -847,37 +842,29 @@ video {
 }
 
 .from-\[\#80caff\] {
-  --tw-gradient-from: #80caff var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(128 202 255 / 0)  var(--tw-gradient-from-position);
-  --tw-gradient-to-position:  ;
+  --tw-gradient-from: #80caff;
+  --tw-gradient-to: rgb(128 202 255 / 0);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .from-\[\#F472B6\] {
-  --tw-gradient-from: #F472B6 var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(244 114 182 / 0)  var(--tw-gradient-from-position);
-  --tw-gradient-to-position:  ;
+  --tw-gradient-from: #F472B6;
+  --tw-gradient-to: rgb(244 114 182 / 0);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .from-gray-900 {
-  --tw-gradient-from: #111827 var(--tw-gradient-from-position);
-  --tw-gradient-from-position:  ;
-  --tw-gradient-to: rgb(17 24 39 / 0)  var(--tw-gradient-from-position);
-  --tw-gradient-to-position:  ;
+  --tw-gradient-from: #111827;
+  --tw-gradient-to: rgb(17 24 39 / 0);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .to-\[\#4f46e5\] {
-  --tw-gradient-to: #4f46e5 var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
+  --tw-gradient-to: #4f46e5;
 }
 
 .to-\[\#FBBF24\] {
-  --tw-gradient-to: #FBBF24 var(--tw-gradient-to-position);
-  --tw-gradient-to-position:  ;
+  --tw-gradient-to: #FBBF24;
 }
 
 .bg-clip-text {
@@ -978,11 +965,6 @@ video {
   line-height: 2.5rem;
 }
 
-.text-5xl {
-  font-size: 3rem;
-  line-height: 1;
-}
-
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -1051,11 +1033,6 @@ video {
   color: rgb(107 114 128 / var(--tw-text-opacity));
 }
 
-.text-gray-900 {
-  --tw-text-opacity: 1;
-  color: rgb(17 24 39 / var(--tw-text-opacity));
-}
-
 .text-indigo-400 {
   --tw-text-opacity: 1;
   color: rgb(129 140 248 / var(--tw-text-opacity));
@@ -1064,11 +1041,6 @@ video {
 .text-indigo-500 {
   --tw-text-opacity: 1;
   color: rgb(99 102 241 / var(--tw-text-opacity));
-}
-
-.text-slate-50 {
-  --tw-text-opacity: 1;
-  color: rgb(248 250 252 / var(--tw-text-opacity));
 }
 
 .text-transparent {
@@ -1120,11 +1092,6 @@ video {
           mask-image: radial-gradient(100% 100% at top right,white,transparent);
 }
 
-.hover\:bg-gray-100:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-indigo-400:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(129 140 248 / var(--tw-bg-opacity));
@@ -1151,10 +1118,6 @@ video {
   outline-color: #818cf8;
 }
 
-.focus-visible\:outline-white:focus-visible {
-  outline-color: #fff;
-}
-
 @media (min-width: 640px) {
   .sm\:left-\[calc\(50\%-18rem\)\] {
     left: calc(50% - 18rem);
@@ -1178,6 +1141,10 @@ video {
 
   .sm\:mt-24 {
     margin-top: 6rem;
+  }
+
+  .sm\:mt-36 {
+    margin-top: 9rem;
   }
 
   .sm\:mt-56 {
@@ -1254,12 +1221,12 @@ video {
     display: flex;
   }
 
-  .md\:h-\[350px\] {
-    height: 350px;
+  .md\:h-\[450px\] {
+    height: 450px;
   }
 
-  .md\:w-\[550px\] {
-    width: 550px;
+  .md\:w-\[700px\] {
+    width: 700px;
   }
 
   .md\:items-center {
