@@ -1,0 +1,1 @@
+npx tailwindcss -i ./public/src/input.css -o ./public/output.css
