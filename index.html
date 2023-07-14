@@ -13,48 +13,91 @@
   <link href="public/output.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/appwrite@11.0.0"></script>
   <script>
-  function handleFormSubmit(event) {
-      event.preventDefault(); // Prevent the default form submission behavior
+    function handleFormSubmit(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
 
-      // Access the form element and its input values
-      const form = event.target;
-      const emailInput = form.elements['email'];
+    // Access the form element and its input values
+    const form = event.target;
+    const emailInput = form.elements['email'];
 
-      // Perform any validation or data processing as needed
-      const inputEmail = emailInput.value;
+    // Perform any validation or data processing as needed
+    const inputEmail = emailInput.value;
 
-      const { Client, Databases, ID } = Appwrite;
-      const client = new Client()
-      .setEndpoint("https://appwrite.myportfolios.io/v1")
-      .setProject("6487e74eead94276569c");
-    
-      const databases = new Databases(client);
+    const { Client, Databases, ID } = Appwrite;
+    const client = new Client()
+      .setEndpoint("https://cloud.appwrite.io/v1")
+      .setProject("64abe5f78275cb56dc63");
 
-      const promise = databases.createDocument(
-        '64880e5871a227799433',
-        '64880e720d0ddc98fd55',
-        ID.unique(),
-        {email: inputEmail}
-      );
+    const databases = new Databases(client);
+    const start = Date.now();
+    databases.createDocument(
+      '64b09ec305230589aa07',
+      '64b09ecfb1ac050bd39d',
+      ID.unique(),
+      { email: inputEmail }
+    ).then(function (response) {
+      console.log(response);
 
-      promise.then(function (response) {
-        console.log(response);
-        alert("Thank you for your interest! We will reach out to you soon.")
-      }, function (error) {
-        console.log(error);
-        alert("Something went wrong. Please try again.")
-      });
-
+      let modal = document.getElementById("noti-modal");
+      modal.style.display = "block";
+      // The modal will close when the user clicks anywhere outside the modal
+      window.onclick = function(event) {
+        if (event.target.nodeName == "BUTTON") {
+          modal.style.display = "none";
+        }
+      }
       form.reset();
-    }
-    
+      
+    }, function (error) {
+      console.log(error);
+      
+      let modal = document.getElementById("noti-modal");
+      modal.style.display = "block";
+      // The modal will close when the user clicks anywhere outside the modal
+      window.onclick = function(event) {
+        if (event.target.nodeName == "BUTTON") {
+          modal.style.display = "none";
+        }
+      }
+      form.reset();
+    });
+  }
   </script>
 
 </head>
 
 <body>
+  <!-- Success modal notification -->
+  <div id="noti-modal" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+  
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+          <div>
+            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+              <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
+            </div>
+            <div class="mt-3 text-center sm:mt-5">
+              <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">We gotcha!</h3>
+              <div class="mt-2">
+                <p class="text-sm text-gray-500">Thank you for your interest! We will reach out to you soon.</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-5 sm:mt-6">
+            <button type="button" class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="bg-gray-800">
     <main>
+
       <!-- Hero section -->
       <div class="relative isolate overflow-hidden">
         <svg
@@ -68,7 +111,7 @@
           </defs>
           <svg x="50%" y="-1" class="overflow-visible fill-gray-800/20">
             <path d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
-              stroke-width="0"/>
+              stroke-width="0" />
           </svg>
           <rect width="100%" height="100%" stroke-width="0" fill="url(#983e3e4c-de6d-4c3f-8d64-b9761d1534cc)" />
         </svg>
@@ -87,38 +130,30 @@
             <h1 class="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">Track your assets with <span
                 class="bg-clip-text text-transparent bg-gradient-to-r from-[#F472B6] to-[#FBBF24]">market value</span>
             </h1>
-            <p class="mt-6 text-lg leading-8 text-gray-300">Portfolios enables your financial goals by tracking your
-              PROPERTY, STOCK, CRYPTOCURRENCIES with market value.</p>
+            <p class="mt-6 text-lg leading-8 text-gray-300">Portfolios enables your financial goals by tracking your</p>
+            <p id="rotating-word"
+              class="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-[#818CF8] to-[#0066F1]">
+            </p>
+            <p class="text-lg leading-8 text-gray-300"> with market value.</p>
+
             <div class="mt-10 flex items-center gap-x-6">
               <form onsubmit="handleFormSubmit(event)">
-                <input class="text-center py-2 rounded-lg" type="text" name="email" id="email" placeholder="email">
+                <input class="text-center py-2 rounded-lg" required type="email" name="email" id="email" placeholder="email">
                 <button
                   class="rounded-lg bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-                  type="submit"> try beta</button>
+                  type="submit">try beta</button>
               </form>
             </div>
           </div>
           <div
-            class="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-32">
+            class="mx-auto mt-16 flex max-w-2xl sm:mt-24 lg:ml-10 lg:mr-0 lg:mt-0 lg:max-w-none lg:flex-none xl:ml-20">
             <div class="max-w-3xl items-center flex-none sm:max-w-5xl lg:max-w-none">
-              <img class="m-auto w-[450px] h-[250px] md:w-[700px] md:h-[450px] " src="images/chart.png"
+              <img class="mt-10 m-auto w-[450px] h-[250px] md:w-[600px] md:h-[370px] " src="images/chart.png"
                 alt="Italian Trulli">
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Logo cloud -->
-      <!-- <div class="mx-auto mt-8 max-w-7xl px-6 sm:mt-16 lg:px-8">
-        <h2 class="text-center text-lg font-semibold leading-8 text-white">The world's most innovative companies use our app</h2>
-        <div class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
-          <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/transistor-logo-white.svg" alt="Transistor" width="158" height="48">
-          <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/reform-logo-white.svg" alt="Reform" width="158" height="48">
-          <img class="col-span-2 max-h-12 w-full object-contain lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/tuple-logo-white.svg" alt="Tuple" width="158" height="48">
-          <img class="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/savvycal-logo-white.svg" alt="SavvyCal" width="158" height="48">
-          <img class="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1" src="https://tailwindui.com/img/logos/158x48/statamic-logo-white.svg" alt="Statamic" width="158" height="48">
-        </div>
-      </div> -->
 
       <!-- Feature section -->
       <div class="mx-auto mt-16 max-w-7xl px-6 sm:mt-36 lg:px-8">
@@ -146,7 +181,7 @@
                   <li> Price fluctuation alerts. </li>
                   <li> Historical data. </li>
                 </ul>
-                
+
                 <p class="mt-6">
                   <a href="#" class="text-sm font-semibold leading-6 text-indigo-400">Learn more <span
                       aria-hidden="true">→</span></a>
@@ -227,13 +262,14 @@
           <div class="mx-auto max-w-2xl sm:text-center">
             <h2 class="text-base font-semibold leading-7 text-indigo-400">Everything you need</h2>
             <p class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Features</p>
-            <p class="mt-6 text-lg leading-8 text-gray-300">Gain insights into the performance tracking of your assets.</p>
+            <p class="mt-6 text-lg leading-8 text-gray-300">Gain insights into the performance tracking of your assets.
+            </p>
           </div>
         </div>
         <div class="relative overflow-hidden pt-16">
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
-            <img src="images/admin_features.png" alt="App screenshot" 
-              class="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-white/10 w-4/5 mx-auto" >
+            <img src="images/admin_features.png" alt="App screenshot"
+              class="mb-[-12%] rounded-xl shadow-2xl ring-1 ring-white/10 w-4/5 mx-auto">
             <div class="relative" aria-hidden="true">
               <div class="absolute -inset-x-20 bottom-0 bg-gradient-to-t from-gray-900 pt-[7%]"></div>
             </div>
@@ -244,13 +280,10 @@
             class="mx-auto grid max-w-2xl grid-cols-1 gap-x-6 gap-y-10 text-base leading-7 text-gray-300 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
             <div class="relative pl-9">
               <dt class="inline font-semibold text-white">
-                <svg class="absolute left-1 top-1 h-5 w-5 text-indigo-500" viewBox="0 0 20 20" fill="currentColor"
-                  aria-hidden="true">
-                  <path fill-rule="evenodd"
-                    d="M5.5 17a4.5 4.5 0 01-1.44-8.765 4.5 4.5 0 018.302-3.046 3.5 3.5 0 014.504 4.272A4 4 0 0115 17H5.5zm3.75-2.75a.75.75 0 001.5 0V9.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0l-3.25 3.5a.75.75 0 101.1 1.02l1.95-2.1v4.59z"
-                    clip-rule="evenodd" />
-                </svg>
-                Performance monitoring.
+                <svg class="absolute left-1 top-1 h-5 w-5 text-indigo-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path clip-rule="evenodd" fill-rule="evenodd" d="M18.125 16.25C18.125 16.4158 18.0592 16.5747 17.9419 16.6919C17.8247 16.8092 17.6658 16.875 17.5 16.875H2.5C2.33424 16.875 2.17527 16.8092 2.05806 16.6919C1.94085 16.5747 1.875 16.4158 1.875 16.25V3.75C1.875 3.58424 1.94085 3.42527 2.05806 3.30806C2.17527 3.19085 2.33424 3.125 2.5 3.125C2.66576 3.125 2.82473 3.19085 2.94194 3.30806C3.05915 3.42527 3.125 3.58424 3.125 3.75V12.2414L7.05781 8.30781C7.11586 8.2497 7.18479 8.2036 7.26066 8.17215C7.33654 8.1407 7.41787 8.12451 7.5 8.12451C7.58213 8.12451 7.66346 8.1407 7.73934 8.17215C7.81521 8.2036 7.88414 8.2497 7.94219 8.30781L10 10.3664L14.1164 6.25H12.5C12.3342 6.25 12.1753 6.18415 12.0581 6.06694C11.9408 5.94973 11.875 5.79076 11.875 5.625C11.875 5.45924 11.9408 5.30027 12.0581 5.18306C12.1753 5.06585 12.3342 5 12.5 5H15.625C15.7908 5 15.9497 5.06585 16.0669 5.18306C16.1842 5.30027 16.25 5.45924 16.25 5.625V8.75C16.25 8.91576 16.1842 9.07473 16.0669 9.19194C15.9497 9.30915 15.7908 9.375 15.625 9.375C15.4592 9.375 15.3003 9.30915 15.1831 9.19194C15.0658 9.07473 15 8.91576 15 8.75V7.13359L10.4422 11.6922C10.3841 11.7503 10.3152 11.7964 10.2393 11.8279C10.1635 11.8593 10.0821 11.8755 10 11.8755C9.91787 11.8755 9.83654 11.8593 9.76066 11.8279C9.68479 11.7964 9.61586 11.7503 9.55781 11.6922L7.5 9.63359L3.125 14.0086V15.625H17.5C17.6658 15.625 17.8247 15.6908 17.9419 15.8081C18.0592 15.9253 18.125 16.0842 18.125 16.25Z"/>
+                  </svg>
+                Performance monitoring
               </dt>
               <dd>Track price movements and monitor portfolio value.</dd>
             </div>
@@ -262,7 +295,7 @@
                     d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z"
                     clip-rule="evenodd" />
                 </svg>
-                Real market valuation.
+                Real market valuation
               </dt>
               <dd>Providing an accurate and up-to-date assessment of portfolio worth with market valuation.</dd>
             </div>
@@ -271,10 +304,11 @@
                 <svg class="absolute left-1 top-1 h-5 w-5 text-indigo-500" viewBox="0 0 20 20" fill="currentColor"
                   aria-hidden="true">
                   <path fill-rule="evenodd"
-                    d="M10 2.5c-1.31 0-2.526.386-3.546 1.051a.75.75 0 01-.82-1.256A8 8 0 0118 9a22.47 22.47 0 01-1.228 7.351.75.75 0 11-1.417-.49A20.97 20.97 0 0016.5 9 6.5 6.5 0 0010 2.5zM4.333 4.416a.75.75 0 01.218 1.038A6.466 6.466 0 003.5 9a7.966 7.966 0 01-1.293 4.362.75.75 0 01-1.257-.819A6.466 6.466 0 002 9c0-1.61.476-3.11 1.295-4.365a.75.75 0 011.038-.219zM10 6.12a3 3 0 00-3.001 3.041 11.455 11.455 0 01-2.697 7.24.75.75 0 01-1.148-.965A9.957 9.957 0 005.5 9c0-.028.002-.055.004-.082a4.5 4.5 0 018.996.084V9.15l-.005.297a.75.75 0 11-1.5-.034c.003-.11.004-.219.005-.328a3 3 0 00-3-2.965zm0 2.13a.75.75 0 01.75.75c0 3.51-1.187 6.745-3.181 9.323a.75.75 0 11-1.186-.918A13.687 13.687 0 009.25 9a.75.75 0 01.75-.75zm3.529 3.698a.75.75 0 01.584.885 18.883 18.883 0 01-2.257 5.84.75.75 0 11-1.29-.764 17.386 17.386 0 002.078-5.377.75.75 0 01.885-.584z"
+                  d="M10 1.875C8.39303 1.875 6.82214 2.35152 5.486 3.24431C4.14985 4.1371 3.10844 5.40605 2.49348 6.8907C1.87852 8.37535 1.71762 10.009 2.03112 11.5851C2.34463 13.1612 3.11846 14.6089 4.25476 15.7452C5.39106 16.8815 6.8388 17.6554 8.41489 17.9689C9.99099 18.2824 11.6247 18.1215 13.1093 17.5065C14.594 16.8916 15.8629 15.8502 16.7557 14.514C17.6485 13.1779 18.125 11.607 18.125 10C18.1227 7.84581 17.266 5.78051 15.7427 4.25727C14.2195 2.73403 12.1542 1.87727 10 1.875ZM16.8461 9.375H14.9594C14.8191 8.27447 14.3173 7.25167 13.5328 6.46718C12.7483 5.68269 11.7255 5.18091 10.625 5.04062V3.15391C12.2249 3.30203 13.7227 4.00505 14.8588 5.1412C15.995 6.27735 16.698 7.77508 16.8461 9.375ZM9.375 9.375H6.30313C6.43397 8.60788 6.79979 7.90032 7.35005 7.35005C7.90032 6.79978 8.60788 6.43396 9.375 6.30313V9.375ZM9.375 10.625V13.6969C8.60788 13.566 7.90032 13.2002 7.35005 12.6499C6.79979 12.0997 6.43397 11.3921 6.30313 10.625H9.375ZM10.625 10.625H13.6969C13.566 11.3921 13.2002 12.0997 12.65 12.6499C12.0997 13.2002 11.3921 13.566 10.625 13.6969V10.625ZM10.625 9.375V6.30313C11.3921 6.43396 12.0997 6.79978 12.65 7.35005C13.2002 7.90032 13.566 8.60788 13.6969 9.375H10.625ZM9.375 3.15391V5.04062C8.27447 5.18091 7.25168 5.68269 6.46719 6.46718C5.68269 7.25167 5.18092 8.27447 5.04063 9.375H3.15391C3.30204 7.77508 4.00505 6.27735 5.1412 5.1412C6.27736 4.00505 7.77509 3.30203 9.375 3.15391ZM3.15391 10.625H5.04063C5.18092 11.7255 5.68269 12.7483 6.46719 13.5328C7.25168 14.3173 8.27447 14.8191 9.375 14.9594V16.8461C7.77509 16.698 6.27736 15.9949 5.1412 14.8588C4.00505 13.7226 3.30204 12.2249 3.15391 10.625ZM10.625 16.8461V14.9594C11.7255 14.8191 12.7483 14.3173 13.5328 13.5328C14.3173 12.7483 14.8191 11.7255 14.9594 10.625H16.8461C16.698 12.2249 15.995 13.7226 14.8588 14.8588C13.7227 15.9949 12.2249 16.698 10.625 16.8461Z"
                     clip-rule="evenodd" />
                 </svg>
-                Financial goal.
+                  
+                Financial goal
               </dt>
               <dd>Set, track, and achieve personalized financial goals.</dd>
             </div>
@@ -286,7 +320,7 @@
                     d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
                     clip-rule="evenodd" />
                 </svg>
-                Recommendation.
+                Recommendation
               </dt>
               <dd>Enhance investment strategies and maximize the returns.</dd>
             </div>
@@ -294,38 +328,8 @@
         </div>
       </div>
 
-      <!-- Stats -->
-      <!-- <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
-        <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
-          <h2 class="text-base font-semibold leading-8 text-indigo-400">Our track record</h2>
-          <p class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Trusted by thousands of
-            developers&nbsp;worldwide</p>
-          <p class="mt-6 text-lg leading-8 text-gray-300">Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-            Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.</p>
-        </div>
-        <dl
-          class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 text-white sm:mt-20 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-4">
-          <div class="flex flex-col gap-y-3 border-l border-white/10 pl-6">
-            <dt class="text-sm leading-6">Developers on the platform</dt>
-            <dd class="order-first text-3xl font-semibold tracking-tight">8,000+</dd>
-          </div>
-          <div class="flex flex-col gap-y-3 border-l border-white/10 pl-6">
-            <dt class="text-sm leading-6">Daily requests</dt>
-            <dd class="order-first text-3xl font-semibold tracking-tight">900m+</dd>
-          </div>
-          <div class="flex flex-col gap-y-3 border-l border-white/10 pl-6">
-            <dt class="text-sm leading-6">Uptime guarantee</dt>
-            <dd class="order-first text-3xl font-semibold tracking-tight">99.9%</dd>
-          </div>
-          <div class="flex flex-col gap-y-3 border-l border-white/10 pl-6">
-            <dt class="text-sm leading-6">Projects deployed</dt>
-            <dd class="order-first text-3xl font-semibold tracking-tight">12m</dd>
-          </div>
-        </dl>
-      </div> -->
-
       <!-- CTA section -->
-      <div class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-40 lg:px-8">
+      <div class="relative isolate mt-32 px-6 py-32 sm:mt-56 sm:py-52 lg:px-8">
         <svg
           class="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
           aria-hidden="true">
@@ -353,7 +357,7 @@
           <div class="mt-10 flex items-center justify-center gap-x-6">
             <div class="flex items-center gap-x-6">
               <form onsubmit="handleFormSubmit(event)">
-                <input class="text-center py-2 rounded-lg" type="text" name="email" id="email" placeholder="email">
+                <input class="text-center py-2 rounded-lg" required type="email" name="email" id="email" placeholder="email">
                 <button
                   class="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
                   type="submit"> try beta</button>
@@ -418,3 +422,21 @@
   </div>
 
 </body>
+
+<script>
+  const words = ["Cryptocurrencies", "Properties", "Stocks"];
+  const rotatingWordElement = document.getElementById("rotating-word");
+  let index = 0;
+  rotatingWordElement.textContent = words[index];
+
+  function rotateWords() {
+    rotatingWordElement.classList.remove("animate-slide-slow");
+    setTimeout(() => {
+      index = (index + 1) %  words.length;
+      rotatingWordElement.textContent = words[index];
+      rotatingWordElement.classList.add("animate-slide-slow");
+    }, 1000); // Wait for the spinning animation to complete
+  }
+  setInterval(rotateWords, 2000); // Rotate every 2 seconds
+
+</script>
